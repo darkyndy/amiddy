@@ -1,3 +1,5 @@
+
+import micromatch from 'micromatch';
 import url from 'url';
 
 
@@ -20,6 +22,50 @@ service.buildUrl = (options) => {
   };
 
   return url.format(urlOptions);
+};
+
+/**
+ * Get dependency that should be used to proxy this request
+ *
+ * @param {Array<Object>} deps - dependencies that can be used for proxy
+ * @param {String} reqUrl - request url
+ * @return {Object} [dependency]
+ */
+service.getDependency = (deps, reqUrl) => (
+  deps.find(
+    (dep) => {
+      const {
+        patterns,
+      } = dep || {};
+      return micromatch.isMatch(reqUrl, (patterns || []));
+    }
+  )
+);
+
+/**
+ * Extend proxy options
+ *
+ * @param {Object} proxyOptions
+ * @param {Object} ssl
+ * @param {Object} dependency - dependency that should be used to proxy this request
+ */
+service.extendOptions = (proxyOptions, ssl, dependency) => {
+  if (dependency) {
+    // we have matching dependency for request url
+    proxyOptions.target = service.buildUrl(dependency);
+
+    if (dependency.https) {
+      if (ssl) {
+        proxyOptions.ssl = {
+          key: ssl.private,
+          cert: ssl.cert,
+        };
+      }
+
+    }
+
+    // TODO other options
+  }
 };
 
 export default service;
