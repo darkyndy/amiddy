@@ -110,7 +110,7 @@ privateApi.time = (start, now) => {
     unit = 's';
   }
 
-  return chalk.gray(`${str.padStart(5, ' ')} ${unit.padEnd(2, ' ')} `);
+  return chalk.gray(`${str.padStart(5, ' ')} ${unit.padStart(2, ' ')} `);
 };
 
 
