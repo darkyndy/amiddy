@@ -57,7 +57,7 @@ service.extendOptions = (proxyOptions, ssl, dependency) => {
     if (dependency.https) {
       if (ssl) {
         proxyOptions.ssl = {
-          key: ssl.private,
+          key: ssl['private'],
           cert: ssl.cert,
         };
       }

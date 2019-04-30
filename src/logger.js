@@ -63,13 +63,14 @@ privateApi.message = (message, category, type) => {
   const color = privateApi.messageColors[type];
 
   const categoryLog = category ? color.category(`[${category}]`) : '';
-  console.log(`${categoryLog} ${color.text(message)}`);
+  console.log(`${categoryLog} ${color.text(message)}`); // eslint-disable-line no-console
 };
 
 /**
  * Log method name
  *
  * @param {String} name - method name
+ * @returns {String}
  */
 privateApi.method = (name) => {
   const bgColor = privateApi.methodBg[name] || chalk.bgMagenta;
@@ -81,6 +82,7 @@ privateApi.method = (name) => {
  * Log status code
  *
  * @param {String} code - status code
+ * @returns {String}
  */
 privateApi.status = (code) => {
   const codePrefix = Math.floor(code / 100);
@@ -95,6 +97,7 @@ privateApi.status = (code) => {
  *
  * @param {Number} start - start time in ms
  * @param {Number} now - current time in ms
+ * @returns {String}
  */
 privateApi.time = (start, now) => {
   const time = now - start;
@@ -131,7 +134,7 @@ service.response = (data, res) => {
     data.uri,
   ];
 
-  console.log(msgParts.join(''));
+  console.log(msgParts.join('')); // eslint-disable-line no-console
 };
 
 /**

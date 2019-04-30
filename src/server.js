@@ -31,7 +31,7 @@ function createServer(config) {
 
   if (isHttps) {
     server = https.createServer({
-      key: ssl.private,
+      key: ssl['private'],
       cert: ssl.cert,
     }, app);
   } else {

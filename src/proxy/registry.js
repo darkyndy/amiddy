@@ -50,6 +50,11 @@ service.clear = (id) => {
 
 /**
  * Set request to registry
+ *
+ * @param {Object} proxyReq
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} options
  */
 service.set = (proxyReq, req, res, options) => {
   // request started time

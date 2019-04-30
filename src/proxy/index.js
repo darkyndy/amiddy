@@ -1,6 +1,5 @@
 import httpProxy from 'http-proxy';
 import vhost from 'vhost';
-import micromatch from 'micromatch';
 
 
 import proxyListen from './listen';
@@ -29,38 +28,35 @@ proxy.on('error', proxyListen.error);
  * @return {Object}
  */
 function createProxyMiddleware(config, ssl) {
-  const api = config.api;
-  const dev = config.dev;
-  const apiUrl = proxyUtils.buildUrl(api);
-  const devUrl = proxyUtils.buildUrl(dev.sourcehost);
+  // source conf
+  const source = config.source || {};
+  // vhost conf
+  const vhostConf = config.vhost || {};
+  // base proxy config, can be overwritten by every dependency
+  const proxyConf = config.proxy || {};
+  // dependencies
+  const deps = config.deps || [];
 
-  return vhost(dev.vhost.name, function (req, res) {
+  return vhost(vhostConf.name, function (req, res) {
+
     const proxyOptions = {
-      target: devUrl,
-      changeOrigin: false,
+      changeOrigin: proxyConf.changeOrigin || false,
+      headers: {
+        host: vhostConf.name,
+      },
       secure: false,
+      target: proxyUtils.buildUrl(source),
+      ws: proxyConf.ws || false,
     };
 
-    if (api.https) {
-      if (ssl) {
-        proxyOptions.ssl = {
-          key: ssl.private,
-          cert: ssl.cert,
-        };
-      }
 
-      proxyOptions.headers = {host: dev.vhost.name};
-    }
+    // get dependency that will proxy this request
+    const dependency = proxyUtils.getDependency(deps, req.url);
 
-    if (api.routes && api.routes.length) {
-      const matches = micromatch(req.url, api.routes);
+    // extend proxy options if there is a dependency that will be used as proxy
+    proxyUtils.extendOptions(proxyOptions, ssl, dependency);
 
-      if (matches && matches.length) {
-        proxyOptions.target = apiUrl;
-      }
-    }
-
-    // Proxy requests
+    // proxy request
     proxy.proxyRequest(req, res, proxyOptions);
   });
 }

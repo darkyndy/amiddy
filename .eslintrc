@@ -1,6 +1,7 @@
 {
   "env": {
-    "es6": true
+    "es6": true,
+    "node": true
   },
   "extends": "eslint:recommended",
   "parserOptions": {
@@ -62,10 +63,10 @@
         "object": "Object",
         "String": "String"
       },
-      "requireParamDescription": true,
+      "requireParamDescription": false,
       "requireParamType": true,
-      "requireReturn": true,
-      "requireReturnDescription": true,
+      "requireReturn": false,
+      "requireReturnDescription": false,
       "requireReturnType": true
     }]
   }
