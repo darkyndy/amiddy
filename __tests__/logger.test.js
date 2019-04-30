@@ -1,5 +1,5 @@
 // testing file
-import logger, {privateApi} from './../src/logger';
+import logger, {privateApi} from '../src/logger';
 
 
 describe('logger', () => {
