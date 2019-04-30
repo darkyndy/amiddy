@@ -8,8 +8,8 @@ function generate() {
   return selfsigned.generate(null, {
     extensions: [
       {
+        cA: true,
         name: 'basicConstraints',
-        cA: true
       },
     ],
   });

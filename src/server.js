@@ -6,7 +6,7 @@ import https from 'https';
 import logger from './logger';
 import certificate from './certificate';
 import {
-  createProxyMiddleware
+  createProxyMiddleware,
 } from './proxy';
 
 
@@ -31,8 +31,8 @@ function createServer(config) {
 
   if (isHttps) {
     server = https.createServer({
-      key: ssl['private'],
       cert: ssl.cert,
+      key: ssl['private'],
     }, app);
   } else {
     server = http.createServer(app);
@@ -40,7 +40,7 @@ function createServer(config) {
 
 
   const message = `Open: ${protocol}://${vhostConf.name}:${vhostConf.port}`;
-  server.listen(vhostConf.port, function () {
+  server.listen(vhostConf.port, () => {
     logger.success('');
     logger.success('Started', 'server-start');
     logger.success(message, 'server-start');

@@ -30,10 +30,10 @@ privateApi.methodBg = {
  * @const {Object}
  */
 privateApi.statusColor = {
-  5: chalk.red,
-  4: chalk.redBright,
-  3: chalk.yellow,
   2: chalk.green,
+  3: chalk.yellow,
+  4: chalk.redBright,
+  5: chalk.red,
 };
 
 /**
@@ -106,9 +106,12 @@ privateApi.time = (start, now) => {
 
   if (time > 1000) {
     const seconds = time / 1000;
-    const fractionDigit = seconds > 100 ?
-      0 : seconds > 10 ?
-        1 : 2;
+    let fractionDigit = 2;
+    if (seconds > 100) {
+      fractionDigit = 0;
+    } else if (seconds > 10) {
+      fractionDigit = 1;
+    }
     str = seconds.toFixed(fractionDigit);
     unit = 's';
   }

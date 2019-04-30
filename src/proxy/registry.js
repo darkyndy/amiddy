@@ -77,8 +77,8 @@ service.set = (proxyReq, req, res, options) => {
 
   privateApi.registry[id] = {
     method: proxyReq.method,
-    uri,
     startTime,
+    uri,
   };
 };
 

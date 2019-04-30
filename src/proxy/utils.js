@@ -16,9 +16,9 @@ service.buildUrl = (options) => {
 
   const urlOptions = {
     hostname: opt.name || '127.0.0.1',
-    protocol: opt.https ? 'https' : 'http',
     port: opt.port || 3000,
-    slashes: true
+    protocol: opt.https ? 'https' : 'http',
+    slashes: true,
   };
 
   return url.format(urlOptions);
@@ -57,8 +57,8 @@ service.extendOptions = (proxyOptions, ssl, dependency) => {
     if (dependency.https) {
       if (ssl) {
         proxyOptions.ssl = {
-          key: ssl['private'],
           cert: ssl.cert,
+          key: ssl['private'],
         };
       }
 

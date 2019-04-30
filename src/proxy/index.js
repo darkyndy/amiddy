@@ -37,7 +37,7 @@ function createProxyMiddleware(config, ssl) {
   // dependencies
   const deps = config.deps || [];
 
-  return vhost(vhostConf.name, function (req, res) {
+  return vhost(vhostConf.name, (req, res) => {
 
     const proxyOptions = {
       changeOrigin: proxyConf.changeOrigin || false,

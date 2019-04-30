@@ -49,7 +49,7 @@ service.error = (error, req, res) => {
     res.writeHead(500);
   }
 
-  res.end('Proxy error occurred: ' + error.message);
+  res.end(`Proxy error occurred: ${error.message}`);
 };
 
 export default service;
