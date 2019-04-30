@@ -154,5 +154,7 @@ service.success = (message, category) => {
   privateApi.message(message, category, 'success');
 };
 
+// only for testing
+export {privateApi};
 
 export default service;
