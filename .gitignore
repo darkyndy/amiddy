@@ -6,3 +6,9 @@ coverage
 
 # node_modules
 node_modules
+
+# log files
+*.log
+
+# amiddy conf for testing
+.amiddy
