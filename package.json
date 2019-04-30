@@ -1,0 +1,57 @@
+{
+  "name": "amiddy",
+  "description": "API Middleware",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/darkyndy/amiddy"
+  },
+  "license": "MIT",
+  "private": false,
+  "main": "lib/index.js",
+  "author": "Paul Comanici",
+  "dependencies": {
+    "chalk": "2.4.2",
+    "express": "4.16.4",
+    "http-proxy": "1.17.0",
+    "micromatch": "4.0.2",
+    "selfsigned": "1.10.4",
+    "strip-json-comments": "2.0.1",
+    "url": "0.11.0",
+    "vhost": "3.0.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.4.4",
+    "@babel/core": "7.4.4",
+    "@babel/preset-env": "7.4.4",
+    "babel-jest": "24.7.1",
+    "codecov": "3.3.0",
+    "jest": "24.7.1",
+    "nodemon": "1.18.11",
+    "rimraf": "2.6.3"
+  },
+  "peerDependencies": {},
+  "scripts": {
+    "build": "npm run lint && npm run test-coverage && npm run compile",
+    "compile": "rimraf lib && babel src --out-dir lib",
+    "lint": "eslint ./src",
+    "prepublishOnly": "npm run build",
+    "report-coverage": "codecov",
+    "start": "nodemon lib/index.js --watch lib",
+    "start-latest": "npm run compile && npm run start",
+    "test": "jest --config=./config/jest-ut.json",
+    "test-watch": "npm run test -- --watch",
+    "test-coverage": "npm run test -- --coverage"
+  },
+  "keywords": [
+    "middleware",
+    "api"
+  ],
+  "files": [
+    "lib"
+  ],
+  "bugs": {
+    "url": "https://github.com/darkyndy/amiddy/issues"
+  },
+  "homepage": "https://github.com/darkyndy/amiddy#amiddy",
+  "version": "1.0.0"
+}
