@@ -1,7 +1,8 @@
 {
   "testRegex": "/__tests__/.*\\.test\\.js$",
   "collectCoverageFrom": [
-    "src/**/*.js"
+    "src/**/*.js",
+    "!src/index.js"
   ],
   "coverageDirectory": "<rootDir>/coverage/",
   "coverageReporters": [
