@@ -43,6 +43,12 @@
       src="https://img.shields.io/npm/l/amiddy.svg"
     />
   </a>
+  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fdarkyndy%2Famiddy?ref=badge_shield">
+    <img
+      alt="FOSSA Status"
+      src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdarkyndy%2Famiddy.svg?type=shield"
+    />
+  </a>
   <br/>
   <a href="https://www.patreon.com/paul_comanici">
     <img
