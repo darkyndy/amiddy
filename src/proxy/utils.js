@@ -8,7 +8,7 @@ const service = {};
 /**
  * Build url
  *
- * @param {Object} options - data for url builder
+ * @param {Object} [options] - data for url builder
  * @returns {String}
  */
 service.buildUrl = (options) => {
@@ -37,7 +37,8 @@ service.getDependency = (deps, reqUrl) => (
       const {
         patterns,
       } = dep || {};
-      return micromatch.isMatch(reqUrl, (patterns || []));
+
+      return micromatch.isMatch(reqUrl, (patterns || []), {contains: true});
     }
   )
 );
@@ -46,8 +47,8 @@ service.getDependency = (deps, reqUrl) => (
  * Extend proxy options
  *
  * @param {Object} proxyOptions
- * @param {Object} ssl
- * @param {Object} dependency - dependency that should be used to proxy this request
+ * @param {Object} [ssl]
+ * @param {Object} [dependency] - dependency that should be used to proxy this request
  */
 service.extendOptions = (proxyOptions, ssl, dependency) => {
   if (dependency) {
