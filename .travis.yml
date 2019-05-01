@@ -6,8 +6,6 @@ language: node_js
 node_js:
   - "node"
 
-before_script:
-  - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
 
 jobs:
   include:
@@ -22,13 +20,14 @@ jobs:
       script: npm run test-coverage && npm run report-coverage
     - stage: compile
       script: npm run compile
-
-script:
-  - fossa init
-  - fossa analyze
-
-after_success:
-  - cd src && fossa test
+    - stage: fossa
+      before_script:
+        - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
+      script:
+        - fossa init
+        - fossa analyze
+      after_success:
+        - cd src && fossa test
 
 notifications:
-  webhooks: "https://app.fossa.io/hooks/travisci"
+  webhooks: https://app.fossa.io/hooks/travisci
