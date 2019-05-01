@@ -19,6 +19,8 @@ proxy.on('proxyRes', proxyListen.response);
 proxy.on('error', proxyListen.error);
 
 
+const service = {};
+
 /**
  * Create proxy middleware.
  * Return `vhost` middleware.
@@ -27,7 +29,7 @@ proxy.on('error', proxyListen.error);
  * @param {Object} ssl
  * @return {Object}
  */
-function createProxyMiddleware(config, ssl) {
+service.create = (config, ssl) => {
   // source conf
   const source = config.source || {};
   // vhost conf
@@ -59,8 +61,7 @@ function createProxyMiddleware(config, ssl) {
     // proxy request
     proxy.proxyRequest(req, res, proxyOptions);
   });
-}
-
-export {
-  createProxyMiddleware,
 };
+
+
+export default service;

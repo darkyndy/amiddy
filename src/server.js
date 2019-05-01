@@ -5,17 +5,32 @@ import https from 'https';
 
 import logger from './logger';
 import certificate from './certificate';
-import {
-  createProxyMiddleware,
-} from './proxy';
+import proxy from './proxy/index';
 
+
+const privateApi = {};
+
+/**
+ * Listener for when the server starts
+ *
+ * @param {String} message
+ * @returns {Function}
+ */
+privateApi.listen = (message) => () => {
+  logger.success('');
+  logger.success('Started', 'server-start');
+  logger.success(message, 'server-start');
+  logger.success('');
+};
+
+const service = {};
 
 /**
  * Create server
  *
  * @param {Object} config
  */
-function createServer(config) {
+service.create = (config) => {
   let server;
 
   const app = express();
@@ -24,7 +39,7 @@ function createServer(config) {
   const protocol = isHttps ? 'https' : 'http';
   const ssl = isHttps ? certificate.generate() : null;
 
-  app.use(createProxyMiddleware(config, ssl));
+  app.use(proxy.create(config, ssl));
 
   // remove `x-powered-by` header
   app.disable('x-powered-by');
@@ -40,14 +55,11 @@ function createServer(config) {
 
 
   const message = `Open: ${protocol}://${vhostConf.name}:${vhostConf.port}`;
-  server.listen(vhostConf.port, () => {
-    logger.success('');
-    logger.success('Started', 'server-start');
-    logger.success(message, 'server-start');
-    logger.success('');
-  });
-}
-
-export {
-  createServer,
+  server.listen(vhostConf.port, privateApi.listen(message));
 };
+
+
+// only for testing
+export {privateApi};
+
+export default service;

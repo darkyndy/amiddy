@@ -1,9 +1,7 @@
 
 import config from './config';
 import debug from './debug';
-import {
-  createServer,
-} from './server';
+import server from './server';
 
 
 const privateApi = {};
@@ -91,7 +89,7 @@ service.run = () => {
   const configObj = config.get(filteredArgs.config);
   debug.block('\nUsing configuration:', JSON.stringify(configObj));
 
-  createServer(configObj);
+  server.create(configObj);
 
 };
 
