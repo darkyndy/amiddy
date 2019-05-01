@@ -60,7 +60,7 @@ privateApi.messageColors = {
  * @param {String} type
  */
 privateApi.message = (message, category, type) => {
-  const color = privateApi.messageColors[type];
+  const color = privateApi.messageColors[type] || privateApi.messageColors.success;
 
   const categoryLog = category ? color.category(`[${category}]`) : '';
   console.log(`${categoryLog} ${color.text(message)}`); // eslint-disable-line no-console
@@ -87,7 +87,7 @@ privateApi.method = (name) => {
 privateApi.status = (code) => {
   const codePrefix = Math.floor(code / 100);
 
-  const color = codePrefix[codePrefix] || chalk.magenta;
+  const color = privateApi.statusColor[codePrefix] || chalk.magenta;
 
   return color(` ${code} `);
 };
@@ -129,7 +129,7 @@ const service = {};
  * @param {Object} res - response data
  */
 service.response = (data, res) => {
-  const now = Date.now();
+  const now = global.Date.now();
   const msgParts = [
     privateApi.method(data.method),
     privateApi.status(res.statusCode),
