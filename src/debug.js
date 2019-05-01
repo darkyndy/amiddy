@@ -1,32 +1,53 @@
 
-let isActive = false;
+/**
+ * Private api for debug
+ *
+ * @protected
+ * @const {Object}
+ */
+const privateApi = {};
+
+/**
+ * Store if we are in debug mode
+ *
+ * @type {Boolean}
+ */
+privateApi.isActive = false;
+
 
 const service = {};
 
+/**
+ * Activate debug mode
+ */
 service.activate = () => {
-  isActive = true;
+  privateApi.isActive = true;
 };
 
 /**
- * Log debug messages
+ * Log message
  *
  * @param {String} msg
  */
 service.log = (msg) => {
-  isActive && console.debug(msg); // eslint-disable-line no-console
+  privateApi.isActive && console.debug(msg); // eslint-disable-line no-console
 };
 
 /**
- * Log debug messages
+ * Log multiple messages
  *
  * @param {...String} msgs
  */
 service.block = (...msgs) => {
-  isActive && msgs.forEach(
+  privateApi.isActive && msgs.forEach(
     (msg) => {
       console.debug(msg); // eslint-disable-line no-console
     }
   );
 };
+
+
+// only for testing
+export {privateApi};
 
 export default service;
