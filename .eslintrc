@@ -5,7 +5,8 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:import/errors"
+    "plugin:import/errors",
+    "plugin:eslint-comments/recommended"
   ],
   "parserOptions": {
     "ecmaVersion": 9,
