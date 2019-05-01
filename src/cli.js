@@ -27,6 +27,15 @@ privateApi.argsMapWithoutVal = {
 };
 
 /**
+ * Extract arguments that may be useful
+ *
+ * @returns {Array<String>}
+ */
+privateApi.getArgs = () => (
+  process.argv.slice(2)
+);
+
+/**
  * Extract arguments that can be used
  *
  * @param {Array<String>} args
@@ -77,21 +86,29 @@ const service = {};
  */
 service.run = () => {
   // extract arguments that are useful
-  const args = process.argv.slice(2);
+  const args = privateApi.getArgs();
   // create object with arguments
   const filteredArgs = privateApi.extractArgs(args);
 
   if (filteredArgs.hasOwnProperty('debug')) {
     debug.activate();
   }
-  debug.block('\nUsing options:', filteredArgs);
 
   const configObj = config.get(filteredArgs.config);
-  debug.block('\nUsing configuration:', JSON.stringify(configObj));
+
+  debug.block(
+    '\nUsing options:',
+    filteredArgs,
+    '\nUsing configuration:',
+    JSON.stringify(configObj)
+  );
 
   server.create(configObj);
 
 };
 
+
+// only for testing
+export {privateApi};
 
 export default service;
