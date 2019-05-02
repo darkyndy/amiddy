@@ -75,7 +75,7 @@ privateApi.message = (message, category, type) => {
 privateApi.method = (name) => {
   const bgColor = privateApi.methodBg[name] || chalk.bgMagenta;
 
-  return bgColor.black(` ${name} `);
+  return bgColor.black(` ${name.padEnd(7, ' ')} `);
 };
 
 /**

@@ -288,7 +288,7 @@ describe('logger', () => {
       expect(
         chalk.bgGreen.black
       ).toHaveBeenCalledWith(
-        ' GET '
+        ' GET     '
       );
     });
 
@@ -309,7 +309,7 @@ describe('logger', () => {
       expect(
         chalk.bgRed.black
       ).toHaveBeenCalledWith(
-        ' DELETE '
+        ' DELETE  '
       );
     });
 
@@ -330,7 +330,7 @@ describe('logger', () => {
       expect(
         chalk.bgCyanBright.black
       ).toHaveBeenCalledWith(
-        ' HEAD '
+        ' HEAD    '
       );
     });
 
@@ -351,7 +351,7 @@ describe('logger', () => {
       expect(
         chalk.bgCyan.black
       ).toHaveBeenCalledWith(
-        ' PATCH '
+        ' PATCH   '
       );
     });
 
@@ -372,7 +372,7 @@ describe('logger', () => {
       expect(
         chalk.bgBlue.black
       ).toHaveBeenCalledWith(
-        ' POST '
+        ' POST    '
       );
     });
 
@@ -393,7 +393,7 @@ describe('logger', () => {
       expect(
         chalk.bgBlueBright.black
       ).toHaveBeenCalledWith(
-        ' PUT '
+        ' PUT     '
       );
     });
 
