@@ -33,7 +33,6 @@ privateApi.loadJSONConfigFile = (filePath) => {
   } catch (e) {
     debug.log(`Error reading JSON file: ${filePath}`);
     e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
-    e.messageTemplate = 'failed-to-read-json';
     e.messageData = {
       message: e.message,
       path: filePath,
@@ -69,7 +68,63 @@ privateApi.getAbsolutePath = (pathToResolve) => {
     return absolutePath;
   }
 
-  throw ` Cannot resolve config file: ${pathToResolve}\n cwd: ${cwd}`;
+  throw Error(` Cannot resolve config file: ${pathToResolve}\n cwd: ${cwd}`);
+};
+
+/**
+ * Test if the provided config object is valid
+ *
+ * @param {Object} configObj
+ * @throws {Error}
+ */
+privateApi.validate = (configObj) => {
+  if (!configObj.vhost) {
+    throw Error('Missing `vhost` property');
+  }
+  if (!configObj.vhost.name) {
+    throw Error('Missing `vhost.name` property');
+  }
+
+  if (!configObj.source) {
+    throw Error('Missing `source` property');
+  }
+  if (!configObj.source.name) {
+    throw Error('Missing `source.name` property');
+  }
+
+  if (!configObj.deps) {
+    throw Error('Missing `deps` property');
+  }
+
+  if (!Array.isArray(configObj.deps)) {
+    throw Error('`deps` property should be an array');
+  }
+
+};
+
+/**
+ * Test if the provided config object is valid
+ *
+ * @param {Object} configObj
+ * @throws {Error}
+ */
+privateApi.setDefaults = (configObj) => {
+  configObj.vhost.https = configObj.vhost.https || false;
+  const vhostHttps = configObj.vhost.https;
+  if (!configObj.vhost.port) {
+    vhostHttps ?
+      configObj.vhost.port = 443 :
+      configObj.vhost.port = 80;
+  }
+
+  configObj.source.https = configObj.source.https || false;
+  const sourceHttps = configObj.source.https;
+  if (!configObj.source.port) {
+    sourceHttps ?
+      configObj.source.port = 443 :
+      configObj.source.port = 80;
+  }
+
 };
 
 
@@ -86,7 +141,13 @@ service.get = (pathToResolve) => {
   const path = pathToResolve || '.amiddy';
   const absolutePath = privateApi.getAbsolutePath(path);
 
-  return privateApi.loadJSONConfigFile(absolutePath);
+  const configObj = privateApi.loadJSONConfigFile(absolutePath);
+
+  privateApi.validate(configObj);
+
+  privateApi.setDefaults(configObj);
+
+  return configObj;
 };
 
 
