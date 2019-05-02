@@ -101,6 +101,17 @@ describe('server', () => {
     });
     beforeEach(() => {
       testSpecificMocks.config = {
+        selfsigned: {
+          attrs: [
+            {
+              name: 'commonName',
+              value: 'darkyndy.com',
+            },
+          ],
+          opts: {
+            days: 365,
+          },
+        },
         vhost: {
           name: 'darkyndy.com',
           port: 80,
@@ -135,7 +146,9 @@ describe('server', () => {
       testSpecificMocks.config.vhost.https = true;
       server.create(testSpecificMocks.config);
 
-      expect(certificate.generate).toHaveBeenCalledWith();
+      expect(certificate.generate).toHaveBeenCalledWith(
+        testSpecificMocks.config.selfsigned
+      );
     });
 
     it('certificate is not generated when vhost uses http protocol', () => {
