@@ -58,7 +58,7 @@ service.clear = (id) => {
  */
 service.set = (proxyReq, req, res, options) => {
   // request started time
-  const startTime = Date.now();
+  const startTime = global.Date.now();
 
   // get unique id
   const id = privateApi.id;
@@ -67,7 +67,9 @@ service.set = (proxyReq, req, res, options) => {
 
 
   // Get proxy target uri
-  const target = Object.assign({}, options.target, {pathname: proxyReq.path});
+  const target = Object.assign(
+    {target: options.target},
+    {pathname: proxyReq.path});
   const uri = decodeURIComponent(url.format(target));
 
   // store ID on the request
@@ -82,5 +84,8 @@ service.set = (proxyReq, req, res, options) => {
   };
 };
 
+
+// only for testing
+export {privateApi};
 
 export default service;
