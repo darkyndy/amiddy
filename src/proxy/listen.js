@@ -28,7 +28,7 @@ service.response = (proxyRes, req, res) => {
   if (id === res.__amiddyId__) {
     // we get response for the request
     const data = proxyRegistry.get(id);
-    logger.response(data, res);
+    logger.response(data, proxyRes);
 
     proxyRegistry.clear(id);
   }
