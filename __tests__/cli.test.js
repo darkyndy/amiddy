@@ -65,6 +65,17 @@ describe('cli', () => {
       ).toEqual({});
     });
 
+    it('returns empty object when array with arguments does not contain accepted props that have valid data', () => {
+      testSpecificMocks.args = [
+        '--invalid=val',
+        '--other=',
+        '--config=',
+      ];
+      expect(
+        privateApi.extractArgs(testSpecificMocks.args)
+      ).toEqual({});
+    });
+
     it('returns object with key as accepted argument and his value based on array provided', () => {
       testSpecificMocks.args = [
         '--arg',
