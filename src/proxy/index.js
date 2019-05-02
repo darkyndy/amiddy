@@ -6,40 +6,27 @@ import proxyListen from './listen';
 import proxyUtils from './utils';
 
 
-// create proxy
-const proxy = httpProxy.createProxyServer();
-
-// request
-proxy.on('proxyReq', proxyListen.request);
-
-// response
-proxy.on('proxyRes', proxyListen.response);
-
-// error
-proxy.on('error', proxyListen.error);
-
-
-const service = {};
+const privateApi = {};
 
 /**
- * Create proxy middleware.
- * Return `vhost` middleware.
+ * Returns callback for vhost
  *
- * @param {Object} config
+ * @param {Object} proxy
  * @param {Object} ssl
- * @return {Object}
+ * @param {Object} config
+ * @returns {Function}
  */
-service.create = (config, ssl) => {
+privateApi.vhostCb = (proxy, ssl, config) => {
   // source conf
-  const source = config.source || {};
+  const source = config.source;
   // vhost conf
-  const vhostConf = config.vhost || {};
+  const vhostConf = config.vhost;
   // base proxy config, can be overwritten by every dependency
-  const proxyConf = config.proxy || {};
+  const proxyConf = config.proxy;
   // dependencies
-  const deps = config.deps || [];
+  const deps = config.deps;
 
-  return vhost(vhostConf.name, (req, res) => {
+  return (req, res) => {
 
     const proxyOptions = {
       changeOrigin: proxyConf.changeOrigin || false,
@@ -60,8 +47,39 @@ service.create = (config, ssl) => {
 
     // proxy request
     proxy.proxyRequest(req, res, proxyOptions);
-  });
+  };
 };
 
+
+const service = {};
+
+/**
+ * Create proxy middleware.
+ * Return `vhost` middleware.
+ *
+ * @param {Object} config
+ * @param {Object} ssl
+ * @return {Object} vhost
+ */
+service.create = (config, ssl) => {
+
+  // create proxy
+  const proxy = httpProxy.createProxyServer();
+
+  // request
+  proxy.on('proxyReq', proxyListen.request);
+
+  // response
+  proxy.on('proxyRes', proxyListen.response);
+
+  // error
+  proxy.on('error', proxyListen.error);
+
+  return vhost(config.vhost.name, privateApi.vhostCb(proxy, ssl, config));
+};
+
+
+// only for testing
+export {privateApi};
 
 export default service;
