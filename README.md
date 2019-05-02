@@ -66,7 +66,109 @@
 
 
 # amiddy
-API Middleware
+Middleware package that makes development much simpler.
+> Note: Documentation needs to be improved, visit IT repo as you may find better docs. 
+
+
+## Installation
+```sh
+npm install --save-dev amiddy
+```
+Or if you are using [yarn](https://yarnpkg.com/en/)
+```sh
+yarn add --dev amiddy
+```
+
+## Usage
+Add new script in `package.json`. Example:
+```
+"scripts": {
+  "start-amiddy": "node amiddy"
+}
+```
+After that start the server by running `npm run start-amiddy`
+
+## Configuration
+
+### Via `.amiddy` (Recommended)
+You need to have at project root folder a file named `.amiddy` that contains valid json.
+You just need to create a file with this name, complete json configuration and you can start the server.  
+
+### Via CLI
+Using `--config` or `-c` arguments you can provide path to the configuration file.
+Example: `npm run start-amiddy --config=../path/to/file.json`
+
+### Options
+Abstract example:
+```json
+{
+  "deps": [
+    {
+      "name": "127.0.0.2",
+      "https": false,
+      "port": 80,
+      "patterns": [
+        "/images/**"
+      ]
+    },
+    {
+      "name": "169.169.255.224",
+      "https": false,
+      "port": 8080,
+      "patterns": [
+        "/api/**"
+      ]
+    }
+  ],
+  "selfsigned": {
+    "attrs": [
+      {
+        "name": "commonName",
+        "value": "example.com"
+      }
+    ],
+      "opts": {
+      "days": 365
+    }
+  },
+  "source": {
+    "name": "127.0.0.1",
+    "https": false,
+    "port": 80
+  },
+  "proxy": {
+    "changeOrigin": false,
+    "ws": true
+  },
+  "vhost": {
+    "name": "example.com",
+    "https": false,
+    "port": 80
+  }
+}
+```
+Are grouped in sections
+
+#### deps
+Array that has one or more objects where each object represents a dependency.
+Every dependency should have patters that will resolve.
+
+#### source
+Source server, usually is your local server.
+
+#### proxy
+Proxy configuration.
+
+#### vhost
+vhost to use.
+
+## Command Line Options
+
+### `--config`, `-c`
+Allows you to set the configuration file.
+
+### `--debug`, `-d`
+Allows you to see debug logs. Useful to see what is the configuration that was loaded.
 
 ## License
 
