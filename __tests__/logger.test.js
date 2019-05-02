@@ -8,24 +8,31 @@ import logger, {privateApi} from '../src/logger';
 jest.mock('chalk', () => ({
   bgBlue: {
     black: jest.fn().mockReturnValue('bg_blue-black'),
+    white: jest.fn().mockReturnValue('bg_blue-white'),
   },
   bgBlueBright: {
     black: jest.fn().mockReturnValue('bg_blueBright-black'),
+    white: jest.fn().mockReturnValue('bg_blueBright-white'),
   },
   bgCyan: {
     black: jest.fn().mockReturnValue('bg_cyan-black'),
+    white: jest.fn().mockReturnValue('bg_cyan-white'),
   },
   bgCyanBright: {
     black: jest.fn().mockReturnValue('bg_cyanBright-black'),
+    white: jest.fn().mockReturnValue('bg_cyanBright-white'),
   },
   bgGreen: {
     black: jest.fn().mockReturnValue('bg_green-black'),
+    white: jest.fn().mockReturnValue('bg_green-white'),
   },
   bgMagenta: {
     black: jest.fn().mockReturnValue('bg_magenta-black'),
+    white: jest.fn().mockReturnValue('bg_magenta-white'),
   },
   bgRed: {
     black: jest.fn().mockReturnValue('bg_red-black'),
+    white: jest.fn().mockReturnValue('bg_red-white'),
   },
   gray: jest.fn().mockReturnValue('gray'),
   green: jest.fn().mockReturnValue('green'),
@@ -191,7 +198,7 @@ describe('logger', () => {
       );
 
       expect(
-        chalk.bgRed.black
+        chalk.bgRed.white
       ).toHaveBeenCalledWith(
         '[start]'
       );
@@ -239,7 +246,7 @@ describe('logger', () => {
       expect(
         console.log // eslint-disable-line no-console
       ).toHaveBeenCalledWith(
-        'bg_red-black red'
+        'bg_red-white red'
       );
     });
 
@@ -307,7 +314,7 @@ describe('logger', () => {
       privateApi.method(testSpecificMocks.method);
 
       expect(
-        chalk.bgRed.black
+        chalk.bgRed.white
       ).toHaveBeenCalledWith(
         ' DELETE  '
       );
@@ -319,7 +326,7 @@ describe('logger', () => {
       expect(
         privateApi.method(testSpecificMocks.method)
       ).toBe(
-        chalk.bgRed.black()
+        chalk.bgRed.white()
       );
     });
 
@@ -370,7 +377,7 @@ describe('logger', () => {
       privateApi.method(testSpecificMocks.method);
 
       expect(
-        chalk.bgBlue.black
+        chalk.bgBlue.white
       ).toHaveBeenCalledWith(
         ' POST    '
       );
@@ -382,7 +389,7 @@ describe('logger', () => {
       expect(
         privateApi.method(testSpecificMocks.method)
       ).toBe(
-        chalk.bgBlue.black()
+        chalk.bgBlue.white()
       );
     });
 
@@ -391,7 +398,7 @@ describe('logger', () => {
       privateApi.method(testSpecificMocks.method);
 
       expect(
-        chalk.bgBlueBright.black
+        chalk.bgBlueBright.white
       ).toHaveBeenCalledWith(
         ' PUT     '
       );
@@ -403,7 +410,7 @@ describe('logger', () => {
       expect(
         privateApi.method(testSpecificMocks.method)
       ).toBe(
-        chalk.bgBlueBright.black()
+        chalk.bgBlueBright.white()
       );
     });
 

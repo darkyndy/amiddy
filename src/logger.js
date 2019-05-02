@@ -16,12 +16,12 @@ const privateApi = {};
  * @const {Object}
  */
 privateApi.methodBg = {
-  DELETE: chalk.bgRed,
-  GET: chalk.bgGreen,
-  HEAD: chalk.bgCyanBright,
-  PATCH: chalk.bgCyan,
-  POST: chalk.bgBlue,
-  PUT: chalk.bgBlueBright,
+  DELETE: chalk.bgRed.white,
+  GET: chalk.bgGreen.black,
+  HEAD: chalk.bgCyanBright.black,
+  PATCH: chalk.bgCyan.black,
+  POST: chalk.bgBlue.white,
+  PUT: chalk.bgBlueBright.white,
 };
 
 /**
@@ -43,7 +43,7 @@ privateApi.statusColor = {
  */
 privateApi.messageColors = {
   error: {
-    category: chalk.bgRed.black,
+    category: chalk.bgRed.white,
     text: chalk.red,
   },
   success: {
@@ -73,9 +73,9 @@ privateApi.message = (message, category, type) => {
  * @returns {String}
  */
 privateApi.method = (name) => {
-  const bgColor = privateApi.methodBg[name] || chalk.bgMagenta;
+  const color = privateApi.methodBg[name] || chalk.bgMagenta.black;
 
-  return bgColor.black(` ${name.padEnd(7, ' ')} `);
+  return color(` ${name.padEnd(7, ' ')} `);
 };
 
 /**
