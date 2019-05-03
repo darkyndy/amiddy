@@ -34,6 +34,7 @@
     "rimraf": "2.6.3"
   },
   "peerDependencies": {},
+  "bin": "./lib/index.js",
   "scripts": {
     "build": "npm run lint && npm run test-coverage && npm run compile",
     "compile": "rimraf lib && babel src --out-dir lib",
@@ -61,5 +62,5 @@
     "url": "https://github.com/darkyndy/amiddy/issues"
   },
   "homepage": "https://github.com/darkyndy/amiddy#amiddy",
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
