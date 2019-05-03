@@ -10,5 +10,10 @@
 > - :nail_care:  [Polish]
 
 
+## v1.0.1
+:lollipop: Improve colors that are used when logging
+:house: Update dependencies
+
+
 ## v1.0.0
-:house: project setup
+:house: First release, contains base functionality that allows starting a server that acts as a middleware for your application
