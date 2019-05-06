@@ -68,8 +68,9 @@ service.set = (proxyReq, req, res, options) => {
 
   // Get proxy target uri
   const target = Object.assign(
-    {target: options.target},
-    {pathname: proxyReq.path});
+    options.target,
+    {pathname: proxyReq.path}
+  );
   const uri = decodeURIComponent(url.format(target));
 
   // store ID on the request

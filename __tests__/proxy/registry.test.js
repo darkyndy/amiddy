@@ -115,7 +115,20 @@ describe('proxy-registry', () => {
         res: 'res',
       };
       testSpecificMocks.options = {
-        target: 'darkyndy.com',
+        target: {
+          auth: null,
+          hash: null,
+          host: '127.0.0.1',
+          hostname: '127.0.0.1',
+          href: 'http://127.0.0.1:80/',
+          path: '/',
+          pathname: '/images/test.png',
+          port: '80',
+          protocol: 'http:',
+          query: null,
+          search: null,
+          slashes: true,
+        },
       };
     });
 
@@ -170,8 +183,8 @@ describe('proxy-registry', () => {
         url.format
       ).toHaveBeenCalledWith(
         {
+          ...testSpecificMocks.options.target,
           pathname: testSpecificMocks.proxyReq.path,
-          target: testSpecificMocks.options.target,
         }
       );
     });
