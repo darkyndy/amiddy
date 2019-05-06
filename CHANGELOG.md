@@ -10,6 +10,11 @@
 > - :nail_care:  [Polish]
 
 
+## v1.1.0
+:lollipop: Ability to show complete url when logging requests
+:house: Update dependencies
+
+
 ## v1.0.1
 :lollipop: Improve colors that are used when logging
 :house: Update dependencies
