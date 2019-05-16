@@ -29,13 +29,12 @@ privateApi.vhostCb = (proxy, ssl, config) => {
   return (req, res) => {
 
     const proxyOptions = {
-      changeOrigin: proxyConf.changeOrigin || false,
+      ...proxyConf,
       headers: {
+        ...proxyConf.headers,
         host: vhostConf.name,
       },
-      secure: false,
       target: proxyUtils.buildUrl(source),
-      ws: proxyConf.ws || false,
     };
 
 

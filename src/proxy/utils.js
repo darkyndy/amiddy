@@ -62,8 +62,6 @@ service.extendOptions = (proxyOptions, ssl, dependency) => {
       }
 
     }
-
-    // TODO other options
   }
 };
 
