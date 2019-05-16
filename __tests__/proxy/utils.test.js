@@ -13,25 +13,23 @@ describe('proxy-utils', () => {
     beforeEach(() => {
       testSpecificMocks.options = {
         https: true,
-        name: '127.0.0.2',
+        ip: '127.0.0.2',
+        name: 'example.com',
         port: 3030,
       };
     });
 
-    it('returns formatted url based on provided options', () => {
+    it('returns formatted url based on provided options (uses IP)', () => {
       expect(proxyUtils.buildUrl(testSpecificMocks.options))
         .toBe('https://127.0.0.2:3030');
     });
 
-    it('returns formatted url based on defaults when options is not provided', () => {
-      expect(proxyUtils.buildUrl())
-        .toBe('http://127.0.0.1:3000');
-    });
+    it('returns formatted url based on provided options (uses name)', () => {
+      testSpecificMocks.options.ip = undefined;
+      testSpecificMocks.options.https = false;
 
-    it('returns formatted url based on provided options and defaults when options contains partial data', () => {
-      testSpecificMocks.options.name = undefined;
       expect(proxyUtils.buildUrl(testSpecificMocks.options))
-        .toBe('https://127.0.0.1:3030');
+        .toBe('http://example.com:3030');
     });
   });
 

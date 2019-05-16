@@ -8,16 +8,14 @@ const service = {};
 /**
  * Build url
  *
- * @param {Object} [options] - data for url builder
+ * @param {Object} options - data for url builder
  * @returns {String}
  */
 service.buildUrl = (options) => {
-  const opt = options || {};
-
   const urlOptions = {
-    hostname: opt.name || '127.0.0.1',
-    port: opt.port || 3000,
-    protocol: opt.https ? 'https' : 'http',
+    hostname: options.ip || options.name,
+    port: options.port,
+    protocol: options.https ? 'https' : 'http',
     slashes: true,
   };
 
