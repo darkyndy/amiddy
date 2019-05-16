@@ -67,7 +67,6 @@
 
 # amiddy
 Middleware package that makes development much simpler.
-> Note: Documentation needs to be improved, visit IT repo as you may find better docs. 
 
 
 ## Installation
@@ -92,7 +91,7 @@ After that start the server by running `npm run start-amiddy`
 
 ### Via `.amiddy` (Recommended)
 You need to have at project root folder a file named `.amiddy` that contains valid json.
-You just need to create a file with this name, complete json configuration and you can start the server.  
+You just need to create a file with this name, complete [json configuration](#options) and you can start the server.  
 
 ### Via CLI
 Using `--config` or `-c` arguments you can provide path to the configuration file.
@@ -104,7 +103,7 @@ Abstract example:
 {
   "deps": [
     {
-      "name": "127.0.0.2",
+      "ip": "127.0.0.2",
       "https": false,
       "port": 80,
       "patterns": [
@@ -112,7 +111,7 @@ Abstract example:
       ]
     },
     {
-      "name": "169.169.255.224",
+      "name": "example.com",
       "https": false,
       "port": 8080,
       "patterns": [
@@ -132,7 +131,7 @@ Abstract example:
     }
   },
   "source": {
-    "name": "127.0.0.1",
+    "ip": "127.0.0.1",
     "https": false,
     "port": 80
   },
@@ -147,20 +146,175 @@ Abstract example:
   }
 }
 ```
-Are grouped in sections
+
 
 #### deps
 Array that has one or more objects where each object represents a dependency.
 Every dependency should have patters that will resolve.
 
+
+#### dependency.ip
+
+- Data type: String
+- Required: Yes if [dependency.name](#dependencyname) does not have value
+- Default value: N/A
+- Example value: `127.1.2.3`
+- Details:
+    - IP for the dependency.
+
+
+#### dependency.name
+
+- Data type: String
+- Required: Yes if [dependency.ip](#dependencyip) does not have value
+- Default value: N/A
+- Example value:
+    - `domain.com`
+    - `sub.domain.com`
+- Details:
+    - Host name for the dependency.
+    - If [dependency.ip](#dependencyip) is set this value is ignored (TODO: I want?!)
+
+
+#### dependency.https
+
+- Data type: Boolean
+- Required: No
+- Default value: `false`
+- Example value:
+    - `true`
+    - `false`
+- Details:
+    - Specify if the dependency uses secure protocol.
+
+
+#### dependency.port
+
+- Data type: Number
+- Required: No
+- Default value:
+    - `80` if [dependency.https](#dependencyhttps) has falsy value
+    - `443` if [dependency.https](#dependencyhttps) has `true` as value
+- Example value:
+    - `3000`
+    - `8080`
+- Details:
+    - Specify port for the dependency.
+
+
+#### dependency.patterns
+
+- Data type: Array<String>
+- Required: Yes
+- Default value: N/A
+- Example value:
+    - ```json
+      [
+        "/api/**"
+      ]
+      ```
+    - ```json
+      [
+        "/test/**",
+        "/api/*",
+        "/logout"
+      ]
+      ```
+- Details:
+    - Specify patterns that if they match will use proxy the request to this dependency.
+    - Patterns are tested using [micromatch.isMatch](https://www.npmjs.com/package/micromatch#ismatch) having as options `{contains: true}`
+
+
 #### source
 Source server, usually is your local server.
+
+
+#### source.ip
+
+- Data type: String
+- Required: No
+- Default value: `127.0.0.1`
+- Example value:
+    - `192.168.10.2`
+    - `127.100.5.24`
+- Details:
+    - Specify the IP that will be used to request resources if there is no match from dependencies.
+
+
+#### source.https
+
+- Data type: Boolean
+- Required: No
+- Default value: `false`
+- Example value:
+    - `false`
+    - `true`
+- Details:
+    - Specify if the source uses secure protocol.
+
+
+
+#### source.port
+
+- Data type: Number
+- Required: No
+- Default value: `3000`
+- Example value:
+    - `80`
+    - `8080`
+    - `1080`
+- Details:
+    - Specify port for the source.
+
 
 #### proxy
 Proxy configuration.
 
+For complete list of options see [http-proxy#options](https://www.npmjs.com/package/http-proxy#options)
+
+> Note: ssl option is not yet supported.
+
 #### vhost
 vhost to use.
+
+
+#### vhost.name
+
+- Data type: String
+- Required: Yes
+- Default value: `example.com`
+- Example value:
+    - `github.com`
+    - `darkyndy.github.com`
+- Details:
+    - Specify the vhostname.
+
+
+#### vhost.https
+
+- Data type: Boolean
+- Required: No
+- Default value: `false`
+- Example value:
+    - `false`
+    - `true`
+- Details:
+    - Specify if the vhost uses secure protocol.
+
+
+
+#### vhost.port
+
+- Data type: Number
+- Required: No
+- Default value: `3000`
+- Example value:
+    - `80`
+    - `8080`
+    - `1080`
+- Details:
+    - Specify port for the vhost.
+
 
 ## Command Line Options
 
@@ -173,3 +327,5 @@ Allows you to see debug logs. Useful to see what is the configuration that was l
 ## License
 
 The MIT License (MIT)
+
+
