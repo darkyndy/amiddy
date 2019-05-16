@@ -279,8 +279,8 @@ describe('config', () => {
       ).toThrowErrorMatchingSnapshot();
     });
 
-    it('throws error when missing `source`', () => {
-      testSpecificMocks.configObj.source = undefined;
+    it('throws error when `source` is not an object (string)', () => {
+      testSpecificMocks.configObj.source = 'str';
 
       expect(
         () => {
@@ -289,8 +289,8 @@ describe('config', () => {
       ).toThrowErrorMatchingSnapshot();
     });
 
-    it('throws error when missing `source.name`', () => {
-      testSpecificMocks.configObj.source.name = undefined;
+    it('throws error when `source` is not an object (array)', () => {
+      testSpecificMocks.configObj.source = [];
 
       expect(
         () => {
@@ -319,9 +319,307 @@ describe('config', () => {
       ).toThrowErrorMatchingSnapshot();
     });
 
+    it('throws error for every `dependency` that does not have patterns as array and ip or name', () => {
+      testSpecificMocks.configObj.deps = [
+        {
+          ip: '127.0.0.1',
+          name: 'example.com',
+          patterns: [
+            'aaaa',
+          ],
+        },
+        {
+          patterns: [],
+        },
+        {
+          patterns: [
+            'aaaa',
+          ],
+        },
+        {
+          ip: '127.0.0.1',
+          patterns: [
+            'aaaa',
+          ],
+        },
+        {
+          name: 'example.com',
+          patterns: [
+            'aaaa',
+          ],
+        },
+      ];
+
+      expect(
+        () => {
+          privateApi.validate(testSpecificMocks.configObj);
+        }
+      ).toThrowErrorMatchingSnapshot();
+    });
+
+  });
+
+  describe('privateApi.getPort', () => {
+    beforeEach(() => {
+      testSpecificMocks.https = true;
+      testSpecificMocks.defaultPort = 3000;
+    });
+
+    it('returns default port provided when it has truthy value', () => {
+      expect(
+        privateApi.getPort(testSpecificMocks.https, testSpecificMocks.defaultPort)
+      ).toBe(3000);
+    });
+
+    it('returns 443 when default port has falsy value and https is truthy', () => {
+      expect(
+        privateApi.getPort(testSpecificMocks.https)
+      ).toBe(443);
+    });
+
+    it('returns 80 when default port has falsy value and https is falsy', () => {
+      testSpecificMocks.https = false;
+
+      expect(
+        privateApi.getPort(testSpecificMocks.https)
+      ).toBe(80);
+    });
+  });
+
+  describe('privateApi.setSourceDefaults', () => {
+    beforeAll(() => {
+      jest.spyOn(privateApi, 'getPort').mockReturnValue(80);
+    });
+    beforeEach(() => {
+      testSpecificMocks.configObj = {
+        deps: [],
+        vhost: {},
+      };
+    });
+
+    afterEach(() => {
+      privateApi.getPort.mockClear();
+    });
+    afterAll(() => {
+      privateApi.getPort.mockRestore();
+    });
+
+    it('when source port has falsy value it prepares port based on source.https and default port as 3000', () => {
+      testSpecificMocks.configObj.source = {
+        https: true,
+      };
+      privateApi.setSourceDefaults(testSpecificMocks.configObj);
+
+      expect(
+        privateApi.getPort
+      ).toHaveBeenCalledWith(
+        testSpecificMocks.configObj.source.https,
+        3000,
+      );
+    });
+
+    it('updates by reference config object with source data (all props)', () => {
+      privateApi.setSourceDefaults(testSpecificMocks.configObj);
+
+      expect(
+        testSpecificMocks.configObj
+      ).toStrictEqual(
+        {
+          deps: [],
+          source: {
+            https: false,
+            ip: '127.0.0.1',
+            port: privateApi.getPort(),
+          },
+          vhost: {},
+        }
+      );
+    });
+
+    it('updates by reference config object with source data (missing props)', () => {
+      testSpecificMocks.configObj.source = {
+        port: 1098,
+      };
+      privateApi.setSourceDefaults(testSpecificMocks.configObj);
+
+      expect(
+        testSpecificMocks.configObj
+      ).toStrictEqual(
+        {
+          deps: [],
+          source: {
+            https: false,
+            ip: '127.0.0.1',
+            port: 1098,
+          },
+          vhost: {},
+        }
+      );
+    });
+
+  });
+
+  describe('privateApi.setVhostDefaults', () => {
+    beforeAll(() => {
+      jest.spyOn(privateApi, 'getPort').mockReturnValue(80);
+    });
+    beforeEach(() => {
+      testSpecificMocks.configObj = {
+        deps: [],
+        source: {},
+        vhost: {
+          name: 'example.com',
+        },
+      };
+    });
+
+    afterEach(() => {
+      privateApi.getPort.mockClear();
+    });
+    afterAll(() => {
+      privateApi.getPort.mockRestore();
+    });
+
+    it('when vhost port has falsy value it prepares port based on vhost.https', () => {
+      testSpecificMocks.configObj.vhost.https = true;
+      privateApi.setVhostDefaults(testSpecificMocks.configObj);
+
+      expect(
+        privateApi.getPort
+      ).toHaveBeenCalledWith(
+        testSpecificMocks.configObj.vhost.https,
+      );
+    });
+
+    it('updates by reference config object with vhost data (all props)', () => {
+      privateApi.setVhostDefaults(testSpecificMocks.configObj);
+
+      expect(
+        testSpecificMocks.configObj
+      ).toStrictEqual(
+        {
+          deps: [],
+          source: {},
+          vhost: {
+            https: false,
+            name: 'example.com',
+            port: privateApi.getPort(),
+          },
+        }
+      );
+    });
+
+    it('updates by reference config object with vhost data (missing props)', () => {
+      testSpecificMocks.configObj.vhost.port = 1098;
+      privateApi.setVhostDefaults(testSpecificMocks.configObj);
+
+      expect(
+        testSpecificMocks.configObj
+      ).toStrictEqual(
+        {
+          deps: [],
+          source: {},
+          vhost: {
+            https: false,
+            name: 'example.com',
+            port: 1098,
+          },
+        }
+      );
+    });
+
+  });
+
+  describe('privateApi.setDepsDefaults', () => {
+    beforeAll(() => {
+      jest.spyOn(privateApi, 'getPort').mockReturnValue(80);
+    });
+    beforeEach(() => {
+      testSpecificMocks.configObj = {
+        deps: [
+          {
+            id: '8.8.7.7',
+            patterns: [
+              '/v1',
+            ],
+          },
+          {
+            https: true,
+            name: 'example.com',
+            patterns: [
+              '/v2',
+            ],
+          },
+        ],
+        source: {},
+        vhost: {},
+      };
+    });
+
+    afterEach(() => {
+      privateApi.getPort.mockClear();
+    });
+    afterAll(() => {
+      privateApi.getPort.mockRestore();
+    });
+
+    it('when dependency port has falsy value it prepares port based on dependency.https', () => {
+      testSpecificMocks.configObj.vhost.https = true;
+      privateApi.setDepsDefaults(testSpecificMocks.configObj);
+
+      expect(
+        privateApi.getPort.mock.calls
+      ).toEqual(
+        [
+          [
+            false,
+          ],
+          [
+            true,
+          ],
+        ]
+      );
+    });
+
+    it('updates by reference config object with deps data', () => {
+      privateApi.setDepsDefaults(testSpecificMocks.configObj);
+
+      expect(
+        testSpecificMocks.configObj
+      ).toStrictEqual(
+        {
+          deps: [
+            {
+              https: false,
+              id: '8.8.7.7',
+              patterns: [
+                '/v1',
+              ],
+              port: privateApi.getPort(),
+            },
+            {
+              https: true,
+              name: 'example.com',
+              patterns: [
+                '/v2',
+              ],
+              port: privateApi.getPort(),
+            },
+          ],
+          source: {},
+          vhost: {},
+        }
+      );
+    });
+
   });
 
   describe('privateApi.setDefaults', () => {
+    beforeAll(() => {
+      jest.spyOn(privateApi, 'setSourceDefaults').mockReturnValue(undefined);
+      jest.spyOn(privateApi, 'setVhostDefaults').mockReturnValue(undefined);
+      jest.spyOn(privateApi, 'setDepsDefaults').mockReturnValue(undefined);
+    });
     beforeEach(() => {
       testSpecificMocks.configObj = {
         proxy: {
@@ -336,75 +634,44 @@ describe('config', () => {
       };
     });
 
-    it('adds missing properties for source & vhost (https has falsy value)', () => {
+    afterEach(() => {
+      privateApi.setSourceDefaults.mockClear();
+      privateApi.setVhostDefaults.mockClear();
+      privateApi.setDepsDefaults.mockClear();
+    });
+    afterAll(() => {
+      privateApi.setSourceDefaults.mockRestore();
+      privateApi.setVhostDefaults.mockRestore();
+      privateApi.setDepsDefaults.mockRestore();
+    });
+
+    it('updates by reference source from config obj', () => {
       privateApi.setDefaults(testSpecificMocks.configObj);
 
-      expect(testSpecificMocks.configObj).toEqual(
-        {
-          proxy: {
-            ws: true,
-          },
-          source: {
-            https: false,
-            name: '127.0.0.1',
-            port: 80,
-          },
-          vhost: {
-            https: false,
-            name: 'http://github.com',
-            port: 80,
-          },
-        }
+      expect(
+        privateApi.setSourceDefaults
+      ).toHaveBeenCalledWith(
+        testSpecificMocks.configObj
       );
     });
 
-    it('adds missing properties for source & vhost (https has truthy value)', () => {
-      testSpecificMocks.configObj.source.https = true;
-      testSpecificMocks.configObj.vhost.https = true;
+    it('updates by reference vhost from config obj', () => {
       privateApi.setDefaults(testSpecificMocks.configObj);
 
-      expect(testSpecificMocks.configObj).toEqual(
-        {
-          proxy: {
-            ws: true,
-          },
-          source: {
-            https: true,
-            name: '127.0.0.1',
-            port: 443,
-          },
-          vhost: {
-            https: true,
-            name: 'http://github.com',
-            port: 443,
-          },
-        }
+      expect(
+        privateApi.setVhostDefaults
+      ).toHaveBeenCalledWith(
+        testSpecificMocks.configObj
       );
     });
 
-    it('no chane is applied as object contained all values', () => {
-      testSpecificMocks.configObj.source.https = false;
-      testSpecificMocks.configObj.source.port = 3000;
-      testSpecificMocks.configObj.vhost.https = true;
-      testSpecificMocks.configObj.vhost.port = 8080;
+    it('updates by reference deps from config obj', () => {
       privateApi.setDefaults(testSpecificMocks.configObj);
 
-      expect(testSpecificMocks.configObj).toEqual(
-        {
-          proxy: {
-            ws: true,
-          },
-          source: {
-            https: false,
-            name: '127.0.0.1',
-            port: 3000,
-          },
-          vhost: {
-            https: true,
-            name: 'http://github.com',
-            port: 8080,
-          },
-        }
+      expect(
+        privateApi.setDepsDefaults
+      ).toHaveBeenCalledWith(
+        testSpecificMocks.configObj
       );
     });
 

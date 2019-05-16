@@ -78,52 +78,108 @@ privateApi.getAbsolutePath = (pathToResolve) => {
  * @throws {Error}
  */
 privateApi.validate = (configObj) => {
-  if (!configObj.vhost) {
+  const vhostConf = configObj.vhost;
+  if (!vhostConf) {
     throw Error('Missing `vhost` property');
   }
-  if (!configObj.vhost.name) {
+  if (!vhostConf.name) {
     throw Error('Missing `vhost.name` property');
   }
 
-  if (!configObj.source) {
-    throw Error('Missing `source` property');
-  }
-  if (!configObj.source.name) {
-    throw Error('Missing `source.name` property');
+  const source = configObj.source;
+  if (source && (typeof source !== 'object' || Array.isArray(source))) {
+    throw Error('`source` property should be an object');
   }
 
-  if (!configObj.deps) {
+  const deps = configObj.deps;
+  if (!deps) {
     throw Error('Missing `deps` property');
   }
 
-  if (!Array.isArray(configObj.deps)) {
+  if (!Array.isArray(deps)) {
     throw Error('`deps` property should be an array');
   }
 
+  const depErrors = [];
+  deps.forEach(
+    (dep, index) => {
+      if (!dep.ip && !dep.name) {
+        depErrors.push(`Dependency with index ${index} is missing "ip" or "name"`);
+      }
+      if (!dep.patterns || !Array.isArray(dep.patterns) || dep.patterns.length < 1) {
+        depErrors.push(`Dependency with index ${index} should have patterns defined as array of strings`);
+      }
+    }
+  );
+
+  if (depErrors.length > 0) {
+    throw Error(depErrors.join(' \n'));
+  }
 };
 
 /**
- * Test if the provided config object is valid
+ * Get value for port.
  *
- * @param {Object} configObj
- * @throws {Error}
+ * @param {Boolean} [https=false]
+ * @param {Number} [defaultPort]
+ * @return {Number} port
  */
-privateApi.setDefaults = (configObj) => {
-  configObj.vhost.https = configObj.vhost.https || false;
-  const vhostHttps = configObj.vhost.https;
-  if (!configObj.vhost.port) {
-    vhostHttps ?
-      configObj.vhost.port = 443 :
-      configObj.vhost.port = 80;
+privateApi.getPort = (https, defaultPort) => {
+  if (defaultPort) {
+    return defaultPort;
   }
 
+  return https ? 443 : 80;
+};
+
+/**
+ * Update config object with defaults for source
+ *
+ * @param {Object} configObj
+ */
+privateApi.setSourceDefaults = (configObj) => {
+  configObj.source = configObj.source || {};
+
+  configObj.source.ip = configObj.source.ip || '127.0.0.1';
+
   configObj.source.https = configObj.source.https || false;
-  const sourceHttps = configObj.source.https;
-  if (!configObj.source.port) {
-    sourceHttps ?
-      configObj.source.port = 443 :
-      configObj.source.port = 80;
-  }
+
+  configObj.source.port = configObj.source.port || privateApi.getPort(configObj.source.https, 3000);
+};
+
+/**
+ * Update config object with defaults for vhost
+ *
+ * @param {Object} configObj
+ */
+privateApi.setVhostDefaults = (configObj) => {
+  configObj.vhost.https = configObj.vhost.https || false;
+  configObj.vhost.port = configObj.vhost.port || privateApi.getPort(configObj.vhost.https);
+};
+
+/**
+ * Update config object with defaults for every dependency
+ *
+ * @param {Object} configObj
+ */
+privateApi.setDepsDefaults = (configObj) => {
+  configObj.deps.forEach(
+    (dep) => {
+      dep.https = dep.https || false;
+      dep.port = dep.port || privateApi.getPort(dep.https);
+    }
+  );
+};
+
+/**
+ * Update config object with defaults
+ *
+ * @param {Object} configObj
+ */
+privateApi.setDefaults = (configObj) => {
+  privateApi.setSourceDefaults(configObj);
+  privateApi.setVhostDefaults(configObj);
+  privateApi.setDepsDefaults(configObj);
 
 };
 

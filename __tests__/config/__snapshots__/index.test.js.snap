@@ -81,13 +81,19 @@ exports[`config privateApi.readFile returns content of the file as string when f
 
 exports[`config privateApi.readFile throws error when file does not exists 1`] = `"ENOENT: no such file or directory, open '__tests__/__fixtures__/noap.json'"`;
 
+exports[`config privateApi.validate throws error for every \`dependency\` that does not have patterns as array and ip or name 1`] = `
+"Dependency with index 1 is missing \\"ip\\" or \\"name\\" 
+Dependency with index 1 should have patterns defined as array of strings 
+Dependency with index 2 is missing \\"ip\\" or \\"name\\""
+`;
+
 exports[`config privateApi.validate throws error when \`deps\` is not an array 1`] = `"\`deps\` property should be an array"`;
 
+exports[`config privateApi.validate throws error when \`source\` is not an object (array) 1`] = `"\`source\` property should be an object"`;
+
+exports[`config privateApi.validate throws error when \`source\` is not an object (string) 1`] = `"\`source\` property should be an object"`;
+
 exports[`config privateApi.validate throws error when missing \`deps\` 1`] = `"Missing \`deps\` property"`;
-
-exports[`config privateApi.validate throws error when missing \`source.name\` 1`] = `"Missing \`source.name\` property"`;
-
-exports[`config privateApi.validate throws error when missing \`source\` 1`] = `"Missing \`source\` property"`;
 
 exports[`config privateApi.validate throws error when missing \`vhost.name\` 1`] = `"Missing \`vhost.name\` property"`;
 
