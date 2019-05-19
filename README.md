@@ -126,7 +126,7 @@ Abstract example:
         "value": "example.com"
       }
     ],
-      "opts": {
+    "opts": {
       "days": 365
     }
   },
@@ -225,6 +225,7 @@ Every dependency should have patters that will resolve.
     - Patterns are tested using [micromatch.isMatch](https://www.npmjs.com/package/micromatch#ismatch) having as options `{contains: true}`
 
 
+
 #### source
 Source server, usually is your local server.
 
@@ -253,7 +254,6 @@ Source server, usually is your local server.
     - Specify if the source uses secure protocol.
 
 
-
 #### source.port
 
 - Data type: Number
@@ -267,12 +267,15 @@ Source server, usually is your local server.
     - Specify port for the source.
 
 
+
 #### proxy
 Proxy configuration.
 
 For complete list of options see [http-proxy#options](https://www.npmjs.com/package/http-proxy#options)
 
 > Note: ssl option is not yet supported.
+
+
 
 #### vhost
 vhost to use.
@@ -302,7 +305,6 @@ vhost to use.
     - Specify if the vhost uses secure protocol.
 
 
-
 #### vhost.port
 
 - Data type: Number
@@ -314,6 +316,20 @@ vhost to use.
     - `1080`
 - Details:
     - Specify port for the vhost.
+
+
+
+### selfsigned
+Options to generate selfsigned certificate.
+
+
+#### selfsigned.attrs
+Please refer to: [https://github.com/digitalbazaar/forge/blob/0.7.5/lib/x509.js#L129](https://github.com/digitalbazaar/forge/blob/0.7.5/lib/x509.js#L129)
+
+
+#### selfsigned.opts
+Please refer to [selfsigned#options](https://github.com/jfromaniello/selfsigned#options)
+
 
 
 ## Command Line Options
