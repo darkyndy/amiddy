@@ -10,6 +10,14 @@
 > - :nail_care:  [Polish]
 
 
+## v1.2.0
+:rocket: `name` property contains domain name and is a fallback if `ip` is not set (applies to every dependency).
+:lollipop: Add more default values for the configuration & improve error reporting if the conf is not valid
+:lollipop: Allow all possible options for proxy (excluding ssl)
+:memo: Update documentation
+:house: Update dependencies
+
+
 ## v1.1.0
 :lollipop: Ability to show complete url when logging requests
 :house: Update dependencies
