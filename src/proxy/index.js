@@ -29,6 +29,9 @@ privateApi.vhostCb = (proxy, ssl, config) => {
   return (req, res) => {
 
     const proxyOptions = {
+      changeOrigin: false,
+      secure: false,
+      ws: false,
       ...proxyConf,
       headers: {
         ...proxyConf.headers,
