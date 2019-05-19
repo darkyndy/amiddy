@@ -11,7 +11,7 @@
   "author": "Paul Comanici",
   "dependencies": {
     "chalk": "2.4.2",
-    "express": "4.16.4",
+    "express": "4.17.0",
     "http-proxy": "1.17.0",
     "micromatch": "4.0.2",
     "selfsigned": "1.10.4",
