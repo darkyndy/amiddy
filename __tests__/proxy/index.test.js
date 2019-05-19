@@ -142,9 +142,11 @@ describe('proxy', () => {
         proxyUtils.extendOptions
       ).toHaveBeenCalledWith(
         {
+          changeOrigin: false,
           headers: {
             host: testSpecificMocks.config.vhost.name,
           },
+          secure: false,
           target: 'proxyUtils::buildUrl',
           ws: true,
         },
