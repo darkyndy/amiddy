@@ -90,7 +90,8 @@ service.run = () => {
   // create object with arguments
   const filteredArgs = privateApi.extractArgs(args);
 
-  if (filteredArgs.hasOwnProperty('debug')) {
+  const hasDebugProp = Object.prototype.hasOwnProperty.call(filteredArgs, 'debug');
+  if (hasDebugProp) {
     debug.activate();
   }
 
