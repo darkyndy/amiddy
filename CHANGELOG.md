@@ -13,6 +13,7 @@
 ## v-next
 * :house: Update dependencies
 * :house: Remove fossa notification with webhook
+* :house: Add postinstall script
 
 
 ## v1.3.0
