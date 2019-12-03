@@ -1,10 +1,9 @@
 
+import httpProxy from 'http-proxy';
+// import vhost from 'vhost'; // Note: vhost is a function and for this case we are using real implementation
+
 // testing file
 import proxy, {privateApi} from '../../src/proxy/index';
-
-
-import httpProxy from 'http-proxy';
-// import vhost from 'vhost'; // Note: vhost is a function and for this case we are usin real implementation
 
 
 import proxyListen from '../../src/proxy/listen';

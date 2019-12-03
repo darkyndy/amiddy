@@ -12,7 +12,7 @@ const privateApi = {};
  * Synchronously read file contents.
  *
  * @param {String} filePath The filename to read.
- * @returns {String} The file contents, with the BOM removed.
+ * @return {String} The file contents, with the BOM removed.
  */
 privateApi.readFile = (filePath) => (
   fs.readFileSync(filePath, 'utf8').replace(/^\ufeff/u, '')
@@ -22,7 +22,7 @@ privateApi.readFile = (filePath) => (
  * Loads a JSON configuration from a file.
  *
  * @param {String} filePath - The filename to load.
- * @returns {Object} config - The configuration object from the file.
+ * @return {Object} config - The configuration object from the file.
  * @throws {Error} If the file cannot be read.
  */
 privateApi.loadJSONConfigFile = (filePath) => {
@@ -45,7 +45,7 @@ privateApi.loadJSONConfigFile = (filePath) => {
  * Test if the provided filePath represents a file
  *
  * @param {String} filePath
- * @returns {Boolean}
+ * @return {Boolean}
  */
 privateApi.isFile = (filePath) => (
   fs.existsSync(filePath) && !fs.lstatSync(filePath).isDirectory()
@@ -55,7 +55,7 @@ privateApi.isFile = (filePath) => (
  * Test if the provided filePath represents a file
  *
  * @param {String} pathToResolve
- * @returns {String}
+ * @return {String}
  * @throws {Error}
  */
 privateApi.getAbsolutePath = (pathToResolve) => {
@@ -191,11 +191,11 @@ const service = {};
  *  that should be at the same level with package.json
  *
  * @param {String} [pathToResolve]
- * @returns {Object}
+ * @return {Object}
  */
 service.get = (pathToResolve) => {
-  const path = pathToResolve || '.amiddy';
-  const absolutePath = privateApi.getAbsolutePath(path);
+  const pathToUse = pathToResolve || '.amiddy';
+  const absolutePath = privateApi.getAbsolutePath(pathToUse);
 
   const configObj = privateApi.loadJSONConfigFile(absolutePath);
 

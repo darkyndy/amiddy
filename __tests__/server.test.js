@@ -1,10 +1,11 @@
 
-// testing file
-import server, {privateApi} from '../src/server';
-
-import express from 'express';
 import http from 'http';
 import https from 'https';
+
+import express from 'express';
+
+// testing file
+import server, {privateApi} from '../src/server';
 
 import logger from '../src/logger';
 import certificate from '../src/certificate';

@@ -1,9 +1,7 @@
+import selfsigned from 'selfsigned';
 
 // testing file
 import certificate from '../src/certificate';
-
-
-import selfsigned from 'selfsigned';
 
 
 // mocks

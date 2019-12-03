@@ -1,9 +1,8 @@
 
+import path from 'path';
+
 // testing file
 import config, {privateApi} from '../../src/config/index';
-
-
-import path from 'path';
 
 
 import debug from '../../src/debug';

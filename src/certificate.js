@@ -3,7 +3,7 @@ import selfsigned from 'selfsigned';
 /**
  * Generate certificate
  * @param {Object} [selfsignedConf]
- * @returns {Object}
+ * @return {Object}
  */
 function generate(selfsignedConf) {
   const conf = selfsignedConf || {};

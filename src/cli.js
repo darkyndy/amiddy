@@ -29,7 +29,7 @@ privateApi.argsMapWithoutVal = {
 /**
  * Extract arguments that may be useful
  *
- * @returns {Array<String>}
+ * @return {Array<String>}
  */
 privateApi.getArgs = () => (
   process.argv.slice(2)

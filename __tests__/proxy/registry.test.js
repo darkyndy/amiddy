@@ -1,9 +1,8 @@
 
+import url from 'url';
+
 // testing file
 import proxyRegistry, {privateApi} from '../../src/proxy/registry';
-
-
-import url from 'url';
 
 
 // mocks

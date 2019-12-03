@@ -70,7 +70,7 @@ privateApi.message = (message, category, type) => {
  * Log method name
  *
  * @param {String} name - method name
- * @returns {String}
+ * @return {String}
  */
 privateApi.method = (name) => {
   const color = privateApi.methodBg[name] || chalk.bgMagenta.black;
@@ -82,7 +82,7 @@ privateApi.method = (name) => {
  * Log status code
  *
  * @param {String} code - status code
- * @returns {String}
+ * @return {String}
  */
 privateApi.status = (code) => {
   const codePrefix = Math.floor(code / 100);
@@ -97,7 +97,7 @@ privateApi.status = (code) => {
  *
  * @param {Number} start - start time in ms
  * @param {Number} now - current time in ms
- * @returns {String}
+ * @return {String}
  */
 privateApi.time = (start, now) => {
   const time = now - start;

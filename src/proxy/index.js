@@ -14,7 +14,7 @@ const privateApi = {};
  * @param {Object} proxy
  * @param {Object} ssl
  * @param {Object} config
- * @returns {Function}
+ * @return {Function}
  */
 privateApi.vhostCb = (proxy, ssl, config) => {
   // source conf

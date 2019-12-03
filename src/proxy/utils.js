@@ -1,6 +1,7 @@
 
-import micromatch from 'micromatch';
 import url from 'url';
+
+import micromatch from 'micromatch';
 
 
 const service = {};
@@ -9,7 +10,7 @@ const service = {};
  * Build url
  *
  * @param {Object} options - data for url builder
- * @returns {String}
+ * @return {String}
  */
 service.buildUrl = (options) => {
   const urlOptions = {

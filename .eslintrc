@@ -41,8 +41,22 @@
     }],
     "eol-last": 2,
     "eqeqeq": [2, "always"],
-    "guard-for-in": 2,
     "func-call-spacing": [2, "never"],
+    "guard-for-in": 2,
+    "import/no-absolute-path": 2,
+    "import/no-cycle": 2,
+    "import/no-unresolved": 2,
+    "import/no-useless-path-segments": 2,
+    "import/order": [2, {
+      "groups": [
+        "builtin",
+        "external",
+        "internal",
+        ["parent", "sibling"],
+        "index"
+      ],
+      "newlines-between": "ignore"
+    }],
     "indent": [2, 2, {
       "ArrayExpression": 1,
       "MemberExpression": 1,
@@ -51,13 +65,17 @@
     }],
     "key-spacing": [2, {"beforeColon": false, "afterColon": true}],
     "keyword-spacing": [2, {"before": true, "after": true}],
-    "import/no-absolute-path": 2,
-    "import/no-cycle": 2,
-    "import/no-useless-path-segments": 2,
     "lines-around-comment": [2, {
       "beforeBlockComment": true
     }],
     "max-classes-per-file": [2, 1],
+    "max-len": [2, {
+      "code": 120,
+      "ignoreComments": true,
+      "ignorePattern": "^(\\s*(import\\W.*|(it|describe)\\())",
+      "ignoreUrls": true,
+      "tabWidth": 2
+    }],
     "newline-per-chained-call": [2, {"ignoreChainWithDepth": 2}],
     "no-alert": 2,
     "no-array-constructor": 2,
@@ -92,6 +110,7 @@
     "no-extra-semi": 2,
     "no-implied-eval": 2,
     "no-irregular-whitespace": 2,
+    "no-lonely-if": 2,
     "no-lone-blocks": 0,
     "no-mixed-spaces-and-tabs": 2,
     "no-multi-spaces": 2,
@@ -103,7 +122,30 @@
     "no-nested-ternary": 2,
     "no-new-object": 2,
     "no-plusplus": 2,
+    "no-restricted-syntax": [2,
+      {
+        // test for export class (only at the bottom of the file)
+        "selector": "ExportNamedDeclaration > ClassDeclaration",
+        "message": "Export should be done at the bottom of the file (found: `export class`)"
+      },
+      {
+        // test for const/let that are in sub-describe (available only under main describe)
+        "selector": "CallExpression[callee.type='Identifier'][callee.name='describe'] BlockStatement BlockStatement VariableDeclaration",
+        "message": "const or let should be used only at suite top-level (main describe)"
+      },
+      {
+        // test for it.only
+        "selector": "CallExpression[callee.type='MemberExpression'][callee.object.type='Identifier'][callee.object.name='it'][callee.property.name='only']",
+        "message": "We should not have it.only in tests"
+      },
+      {
+        // test for describe.only
+        "selector": "CallExpression[callee.type='MemberExpression'][callee.object.type='Identifier'][callee.object.name='describe'][callee.property.name='only']",
+        "message": "We should not have describe.only in tests"
+      }
+    ],
     "no-self-assign": 2,
+    "no-shadow": 2,
     "no-sparse-arrays": 2,
     "no-template-curly-in-string": 2,
     "no-trailing-spaces": [2, {
@@ -116,6 +158,7 @@
       "caughtErrors": "none",
       "ignoreRestSiblings": true
     }],
+    "no-useless-catch": 0, // I want empty catch
     "no-useless-computed-key": 2,
     "no-useless-constructor": 2,
     "no-useless-rename": 2,
@@ -151,14 +194,17 @@
         "arg": "param",
         "argument": "param",
         "class": "constructor",
+        "constant": "const",
         "return": "return",
+        "returns": "return",
         "virtual": "abstract"
       },
       "preferType": {
-        "Boolean": "Boolean",
-        "Number": "Number",
+        "boolean": "Boolean",
+        "function": "Function",
+        "number": "Number",
         "object": "Object",
-        "String": "String"
+        "string": "String"
       },
       "requireParamDescription": false,
       "requireParamType": true,
@@ -166,5 +212,14 @@
       "requireReturnDescription": false,
       "requireReturnType": true
     }]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js"
+        ]
+      }
+    }
   }
 }

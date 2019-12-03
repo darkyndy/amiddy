@@ -1,6 +1,7 @@
-import express from 'express';
 import http from 'http';
 import https from 'https';
+
+import express from 'express';
 
 
 import logger from './logger';
@@ -14,7 +15,7 @@ const privateApi = {};
  * Listener for when the server starts
  *
  * @param {String} message
- * @returns {Function}
+ * @return {Function}
  */
 privateApi.listen = (message) => () => {
   logger.success('');
