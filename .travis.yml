@@ -18,6 +18,9 @@ jobs:
     - stage: validity
       name: "Unit tests"
       script: npm run test-coverage && npm run report-coverage
+    - stage: validity
+      name: "Issues & vulnerabilities check on dependencies"
+      script: npm run snyk-test
     - stage: compile
       script: npm run compile
     - stage: fossa
