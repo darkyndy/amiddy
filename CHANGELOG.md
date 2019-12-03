@@ -10,27 +10,32 @@
 > - :nail_care:  [Polish]
 
 
+## v-next
+* :house: Update dependencies
+* :house: Remove fossa notification with webhook
+
+
 ## v1.3.0
-:house: Update dependencies
+* :house: Update dependencies
 
 
 ## v1.2.0
-:rocket: `name` property contains domain name and is a fallback if `ip` is not set (applies to every dependency).
-:lollipop: Add more default values for the configuration & improve error reporting if the conf is not valid
-:lollipop: Allow all possible options for proxy (excluding ssl)
-:memo: Update documentation
-:house: Update dependencies
+* :rocket: `name` property contains domain name and is a fallback if `ip` is not set (applies to every dependency).
+* :lollipop: Add more default values for the configuration & improve error reporting if the conf is not valid
+* :lollipop: Allow all possible options for proxy (excluding ssl)
+* :memo: Update documentation
+* :house: Update dependencies
 
 
 ## v1.1.0
-:lollipop: Ability to show complete url when logging requests
-:house: Update dependencies
+* :lollipop: Ability to show complete url when logging requests
+* :house: Update dependencies
 
 
 ## v1.0.1
-:lollipop: Improve colors that are used when logging
-:house: Update dependencies
+* :lollipop: Improve colors that are used when logging
+* :house: Update dependencies
 
 
 ## v1.0.0
-:house: First release, contains base functionality that allows starting a server that acts as a middleware for your application
+* :house: First release, contains base functionality that allows starting a server that acts as a middleware for your application
