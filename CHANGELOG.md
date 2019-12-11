@@ -11,7 +11,7 @@
 
 
 ## v-next
-* 
+* :lollipop: Set default attrs & opts for selfsigned that are based on latest security guidelines
 
 
 ## v1.3.1

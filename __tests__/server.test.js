@@ -148,6 +148,7 @@ describe('server', () => {
       server.create(testSpecificMocks.config);
 
       expect(certificate.generate).toHaveBeenCalledWith(
+        testSpecificMocks.config.vhost.name,
         testSpecificMocks.config.selfsigned
       );
     });
