@@ -11,6 +11,9 @@
 
 
 ## v-next
+* 
+
+## v1.3.2
 * :house: Update dependencies
 * :lollipop: Set default attrs & opts for selfsigned that are based on latest security guidelines
 
