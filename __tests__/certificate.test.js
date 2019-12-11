@@ -89,15 +89,17 @@ describe('server', () => {
         [
           {
             name: 'commonName',
-            value: 'amiddy',
+            value: '*.dns.name'
           },
           {
             name: 'organizationName',
-            value: 'amiddy',
+            value: 'amiddy Trust',
           },
         ],
         {
           algorithm: 'sha256',
+          clientCertificate: true,
+          clientCertificateCN: 'amiddy',
           days: 365,
           extensions: [
             {
@@ -106,46 +108,34 @@ describe('server', () => {
               name: 'basicConstraints'
             },
             {
-              dataEncipherment: true,
-              digitalSignature: true,
+              critical: true,
               keyCertSign: true,
               keyEncipherment: true,
               name: 'keyUsage',
-              nonRepudiation: true,
             },
             {
               clientAuth: true,
-              codeSigning: true,
-              emailProtection: true,
               name: 'extKeyUsage',
               serverAuth: true,
-              timeStamping: true
             },
             {
               altNames: [
                 {
                   type: 2,
-                  value: '*.dns.name'
+                  value: '*.dns.name',
                 },
               ],
               name: 'subjectAltName',
             },
             {
-              name: 'subjectKeyIdentifier'
+              name: 'subjectKeyIdentifier',
             },
             {
-              name: 'authorityKeyIdentifier'
+              authorityCertIssuer: true,
+              keyIdentifier: true,
+              name: 'authorityKeyIdentifier',
+              serialNumber: true,
             },
-            {
-              client: true,
-              email: true,
-              emailCA: true,
-              name: 'nsCertType',
-              objCA: true,
-              objsign: true,
-              server: true,
-              sslCA: true,
-            }
           ],
           keySize: 2048,
         },
