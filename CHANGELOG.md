@@ -11,7 +11,7 @@
 
 
 ## v-next
-* 
+* :lollipop: Update default opts for selfsigned `keyUsage` extension
 
 ## v1.3.2
 * :house: Update dependencies

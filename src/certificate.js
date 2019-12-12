@@ -57,9 +57,12 @@ service.generate = (vhostName, selfsignedConf) => {
       },
       {
         critical: true,
+        dataEncipherment: true,
+        digitalSignature: true,
         keyCertSign: true,
         keyEncipherment: true,
         name: 'keyUsage',
+        nonRepudiation: true,
       },
       {
         clientAuth: true,
